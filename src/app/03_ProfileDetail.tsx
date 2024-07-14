@@ -2,9 +2,16 @@ import {useParams} from "react-router-dom";
 import {useMemo} from "react";
 import {PROFILES} from "../data/profiles.ts";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../components/ui/card.tsx";
-import {convertTStoDate, generatePDF, numberToFrenchText, TemplateData} from "../helpers/helpers.ts";
+import {
+    attachLastNameToMailBody,
+    convertTStoDate,
+    generatePDF,
+    numberToFrenchText,
+    TemplateData
+} from "../helpers/helpers.ts";
 import {Button} from "../components/ui/button.tsx";
 import Profile from "../model/Profile.tsx";
+import {MAIL_BODY_TEMPLATE} from "../helpers/constants.ts";
 
 export default function ProfileDetail() {
     const {id} = useParams()
@@ -51,6 +58,16 @@ export default function ProfileDetail() {
         generatePDF('../assets/receipt.html', data, 'receipt.pdf')
     }
 
+    const sendEmail = () => {
+        const formatter = new Intl.DateTimeFormat('fr', { month: 'long' });
+        const month = formatter.format(new Date());
+        const year = new Date().getFullYear()
+
+        const mail_body = attachLastNameToMailBody(profile?.lastName ?? "", MAIL_BODY_TEMPLATE)
+
+        window.open(`mailto:${profile?.email}?subject=Quittance de loyer ${month} ${year}&body=${mail_body}`, '_blank')
+    }
+
     return(<div className='text-center m-10'>
         <h1 className='text-3xl mb-5'>DETAIL</h1>
         <Card className='text-left'>
@@ -63,8 +80,9 @@ export default function ProfileDetail() {
                 <p>Rent : {profile?.rent}</p>
                 <p>Charge: {profile?.charge}</p>
             </CardContent>
-            <CardFooter>
+            <CardFooter className='flex gap-1'>
                 <Button onClick={downloadReceipt}>Download Receipts</Button>
+                <Button disabled={true} onClick={sendEmail}>Send Receipt</Button>
             </CardFooter>
         </Card>
     </div>)

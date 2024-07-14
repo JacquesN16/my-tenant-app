@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import Profile from "../model/Profile.tsx";
 
 export interface TemplateData {
     title: string | null
@@ -32,6 +33,8 @@ export const generatePDF = async (
     const htmlString = await response.text();
     const template = document.createElement('div');
     template.innerHTML = htmlString;
+    template.style.width = '640'
+    template.style.height = '590'
     // Replace placeholders with actual data
     Object.entries(data).forEach(([key, value]) => {
         const elements = template.getElementsByClassName(`${key}`);
@@ -44,24 +47,20 @@ export const generatePDF = async (
 };
 
 export const generatePDFDoc = async (template: HTMLDivElement, filename:string): Promise<void> => {
-    try{
         document.body.appendChild(template)
-        const canvas = await html2canvas(template, { scale:1 }); // Adjust scale as needed
-
+        const canvas = await html2canvas(template, { scale:2 }); // Adjust scale as needed
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
 
-        pdf.addImage({imageData:imgData,
-            x:0,
-            y:0,
-            width:canvas.width,
-            height:canvas.height,
+        // template.remove()
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'cm',
+            format: 'a4'
         });
+        const WIDTH = 21;
+        const HEIGHT = 22;
+        pdf.addImage(imgData, 'PNG', 0, 0, WIDTH, HEIGHT);
         pdf.save(filename);
-    }catch(e){
-        console.error('Failed to generate PDF:', e);
-    }
-
 };
 
 export function convertTStoDate(ts?: number): string{
@@ -120,4 +119,8 @@ export function numberToFrenchText(number: number) {
     }
 
     return text.trim() + " euros";
+}
+
+export function attachLastNameToMailBody(lastName: string, body_template: string): string {
+    return body_template.replace('****', lastName);
 }
