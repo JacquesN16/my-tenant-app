@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<body>
+    <main class="px-20 pt-20 ">
+        <div class="w-100 flex justify-center text-5xl my-10">
+            <h1 class="text-3xl font-bold">Quittance de loyer <span class="month"></span>/<span class="year"></span></h1>
+        </div>
+
+        <div class="w-100 flex flex-col items-end my-10">
+            <p><span class="lastName"></span> <span class="firstName"></span></p>
+            <p>8 rue d'Aurion, 93110 Rosny-sous-Bois</p>
+            <p class="my-5">Fait à Rosny-sous-Bois, <span class="today"></span></p>
+        </div>
+
+        <div class="my-10 leading-loose">
+            <p>
+                Je soussigné, NGUYEN, propriétaire du logement susmentionné, déclare avoir reçu de <span class="title"></span> <span class="lastName"></span> <span class="firstName"></span>, la somme de
+                <span class="totalRent"></span> euros (<span class="totalRentInText"></span>),
+                au titre du paiement du loyer et des charges pour la période de location du <span class="startPeriod"></span> au
+                <span class="endPeriod"></span>, et lui en donne quittance, sous réserve de tous mes droits.
+            </p>
+        </div>
+
+        <table class="my-10">
+            <tr>
+                <th >Description</th>
+                <th >Montant</th>
+            </tr>
+            <tr>
+                <td >Loyer</td>
+                <td class=" text-right"> <span class="rent"></span> €</td>
+            </tr>
+            <tr>
+                <td >Provision pour charges</td>
+                <td class="text-right"><span class="charge"></span> €</td>
+            </tr>
+            <tr>
+                <th >Total</th>
+                <th class="text-right"><span class="totalRent"></span> €</th>
+            </tr>
+            <tr class="pb-10">
+                <td>Date du paiement</td>
+                <td><span class="dateOfPayment"></span></td>
+            </tr>
+        </table>
+    </main>
+
+</body>
+</html>
