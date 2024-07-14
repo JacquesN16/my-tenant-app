@@ -1,6 +1,5 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import Profile from "../model/Profile.tsx";
 
 export interface TemplateData {
     title: string | null
