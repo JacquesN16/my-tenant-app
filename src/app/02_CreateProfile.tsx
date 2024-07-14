@@ -21,7 +21,7 @@ import {
 
 import { Input } from "../components/ui/input"
 import {cn} from "../components/lib/utils.ts";
-import {toast} from "../components/ui/use-toast.ts";
+
 
 const formSchema = z.object({
         firstName: z.string().optional(),
@@ -51,17 +51,7 @@ export default function CreateProfile () {
 
 
     function onSubmit(values: FormValues) {
-
         console.log('click',values)
-
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-            ),
-        })
     }
 
 
