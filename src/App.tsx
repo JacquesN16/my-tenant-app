@@ -8,7 +8,7 @@ import ProfileList from "./app/01_ProfileList.tsx";
 function App() {
 
   return (
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <ProfileList />
       </ThemeProvider>
   )
