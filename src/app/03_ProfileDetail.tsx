@@ -4,6 +4,7 @@ import {PROFILES} from "../data/profiles.ts";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../components/ui/card.tsx";
 import {convertTStoDate, generatePDF, numberToFrenchText, TemplateData} from "../helpers/helpers.ts";
 import {Button} from "../components/ui/button.tsx";
+import Profile from "../model/Profile.tsx";
 
 export default function ProfileDetail() {
     const {id} = useParams()
@@ -19,7 +20,7 @@ export default function ProfileDetail() {
 
     },[id])
 
-    const buildDataForTemplate = (profile): TemplateData => {
+    const buildDataForTemplate = (profile: Profile): TemplateData => {
 
         const currentDate = new Date()
         const startOfThisMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getTime()
@@ -29,12 +30,12 @@ export default function ProfileDetail() {
             title: 'Monsieur',
             month: currentDate.getMonth() + 1,
             year: currentDate.getFullYear(),
-            lastName: profile?.lastName,
-            firstName: profile?.firstName,
-            email: profile?.email,
+            lastName: profile?.lastName || "",
+            firstName: profile?.firstName || "",
+            email: profile?.email || "",
             startDate: convertTStoDate(profile?.startDate),
-            rent: profile?.rent,
-            charge: profile?.charge,
+            rent: profile?.rent || 0,
+            charge: profile?.charge || 0,
             totalRent: profile?.rent + profile?.charge,
             totalRentInText: numberToFrenchText(profile?.rent + profile?.charge),
             dateOfPayment: convertTStoDate(currentDate.getTime()),
@@ -42,16 +43,13 @@ export default function ProfileDetail() {
             endPeriod: convertTStoDate(endOfThisMonth)
         }
     }
-
     const downloadReceipt = () => {
-            const data= buildDataForTemplate(profile)
-
-          generatePDF('../assets/receipt.html', data, 'receipt.pdf')
-
+        if(!profile) {
+            return
+        }
+        const data= buildDataForTemplate(profile)
+        generatePDF('../assets/receipt.html', data, 'receipt.pdf')
     }
-
-
-
 
     return(<div className='text-center m-10'>
         <h1 className='text-3xl mb-5'>DETAIL</h1>

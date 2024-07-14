@@ -43,14 +43,20 @@ export const generatePDF = async (
 
 };
 
-export const generatePDFDoc = async (template: HTMLDivElement, filename): Promise<void> => {
+export const generatePDFDoc = async (template: HTMLDivElement, filename:string): Promise<void> => {
     try{
         document.body.appendChild(template)
         const canvas = await html2canvas(template, { scale:1 }); // Adjust scale as needed
 
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 0, 0);
+
+        pdf.addImage({imageData:imgData,
+            x:0,
+            y:0,
+            width:canvas.width,
+            height:canvas.height,
+        });
         pdf.save(filename);
     }catch(e){
         console.error('Failed to generate PDF:', e);
@@ -58,8 +64,8 @@ export const generatePDFDoc = async (template: HTMLDivElement, filename): Promis
 
 };
 
-export function convertTStoDate(ts?: number) {
-    if(!ts) return null
+export function convertTStoDate(ts?: number): string{
+    if(!ts) return ""
     const date = new Date(ts);
 
     const options: Intl.DateTimeFormatOptions = {
@@ -71,7 +77,7 @@ export function convertTStoDate(ts?: number) {
     return date.toLocaleDateString("fr-FR", options);
 }
 
-export function numberToFrenchText(number) {
+export function numberToFrenchText(number: number) {
     // Check for invalid input
     if (isNaN(number) || number < 0 || number > 999) {
         return "";
@@ -109,7 +115,7 @@ export function numberToFrenchText(number) {
         }
     }
 
-    if (onesDigit > 0 && (tensDigit !== 1 || tensDigit === 0)) {
+    if (onesDigit > 0 && (tensDigit !== 1)) {
         text += ones[onesDigit];
     }
 

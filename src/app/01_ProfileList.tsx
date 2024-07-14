@@ -1,8 +1,6 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "../components/ui/table.tsx"
 import {Button} from "../components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-import {fetchProfileList} from "./api.ts";
-import {useEffect, useState} from "react";
 import {PROFILES} from "../data/profiles.ts";
 import {convertTStoDate} from "../helpers/helpers.ts";
 
