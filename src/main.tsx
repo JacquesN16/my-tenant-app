@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         element: <App />,
     },
     {
-        path: "/new",
+        path: "profile/new",
         element: <CreateProfile />,
     },
     {
