@@ -3,10 +3,26 @@ import {Button} from "../components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
 import {PROFILES} from "../data/profiles.ts";
 import {convertTStoDate} from "../helpers/helpers.ts";
-
+import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {CONFIG} from "../../config.ts";
 
 export default function ProfileList() {
     const navigate = useNavigate();
+
+    const fetchTenants = async () => {
+        const res = await fetch(`${CONFIG.backend.url}/api/tenants`)
+            console.log(res)
+        const json = await res.json()
+        console.log(json)
+        return json.data
+    }
+
+    const { isPending, isError, data, error } = useQuery(
+        {
+            queryKey: ['profiles'],
+            queryFn: fetchTenants }
+    )
+
 
 
     function recomputeTotalRentMonth(startDate: number) {
@@ -23,6 +39,8 @@ export default function ProfileList() {
     function goToProfile(id: string) {
         navigate(`/profile/${id}`)
     }
+
+    console.log(data)
 
     return (<div>
         <h1 className='text-center font-bold scale-95'>Profiles</h1>
@@ -43,7 +61,8 @@ export default function ProfileList() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {PROFILES.map((profile, index: number) => (
+                {isError && <div>Error: {error}</div>}
+                {!!data && data.map((profile, index: number) => (
                     <TableRow key={profile.firstName}>
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>{profile.firstName + " " + profile.lastName}</TableCell>
