@@ -1,9 +1,8 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "../components/ui/table.tsx"
 import {Button} from "../components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-import {PROFILES} from "../data/profiles.ts";
 import {convertTStoDate} from "../helpers/helpers.ts";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {CONFIG} from "../../config.ts";
 
 export default function ProfileList() {
@@ -17,7 +16,7 @@ export default function ProfileList() {
         return json.data
     }
 
-    const { isPending, isError, data, error } = useQuery(
+    const {  isError, data, error } = useQuery(
         {
             queryKey: ['profiles'],
             queryFn: fetchTenants }
@@ -35,12 +34,10 @@ export default function ProfileList() {
     }
 
 
-
     function goToProfile(id: string) {
         navigate(`/profile/${id}`)
     }
 
-    console.log(data)
 
     return (<div>
         <h1 className='text-center font-bold scale-95'>Profiles</h1>
