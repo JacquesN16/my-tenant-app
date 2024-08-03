@@ -148,11 +148,8 @@ export default function CreateProfile () {
                                     <FormLabel>Rent</FormLabel>
                                     <FormControl>
                                         <Input
-                                            type="number"
-                                            placeholder={field.value}
-                                            onChange={
-                                                (event)=>field.onChange(parseInt(event.target.value))
-                                            }
+                                            type="string"
+                                            placeholder={field.value + '€yarn'}
                                             {...field} />
                                     </FormControl>
                                     <FormMessage/>
@@ -170,8 +167,9 @@ export default function CreateProfile () {
                                     <FormLabel>Monthly Charge</FormLabel>
                                     <FormControl>
                                         <Input
-                                            type="number"
-                                            placeholder={field.value + '€'} {...field} />
+                                            type="string"
+                                            placeholder={field.value + '€'}
+                                            {...field} />
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
