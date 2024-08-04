@@ -3,7 +3,7 @@ import {Button} from "../components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
 import {convertTStoDate} from "../helpers/helpers.ts";
 import {useQuery} from "@tanstack/react-query";
-import {CONFIG} from "../../config.ts";
+import {CONFIG} from "../config.ts";
 
 export default function ProfileList() {
     const navigate = useNavigate();
@@ -22,8 +22,6 @@ export default function ProfileList() {
             queryFn: fetchTenants }
     )
 
-
-
     function recomputeTotalRentMonth(startDate: number) {
 
         const today = new Date();
@@ -32,7 +30,6 @@ export default function ProfileList() {
         return ~~(diff / (1000 * 60 * 60 * 24 * 30));
 
     }
-
 
     function goToProfile(id: string) {
         navigate(`/profile/${id}`)
