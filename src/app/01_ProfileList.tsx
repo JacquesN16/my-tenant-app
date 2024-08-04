@@ -10,13 +10,13 @@ export default function ProfileList() {
 
     const fetchTenants = async () => {
         const res = await fetch(`${CONFIG.backend.url}/api/tenants`)
-            console.log(res)
+
         const json = await res.json()
-        console.log(json)
-        return json.data
+
+        return json.data as {firstName: string, lastName: string,startDate: number, rent: number, charge: number}[]
     }
 
-    const {  isError, data, error } = useQuery(
+    const {  isError, data } = useQuery(
         {
             queryKey: ['profiles'],
             queryFn: fetchTenants }
@@ -58,7 +58,7 @@ export default function ProfileList() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {isError && <div>Error: {error}</div>}
+                {isError && <div>Error</div>}
                 {!!data && data.map((profile, index: number) => (
                     <TableRow key={profile.firstName}>
                         <TableCell>{index + 1}</TableCell>
